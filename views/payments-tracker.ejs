@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payments Tracker</title>
+  <style>
+    /* Basic CSS to style the form */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Payment Status Changer</h1>
+    <form id="changeSubscriptionStatus" action="/change-subscription-status" method="POST">
+      <!-- User Email -->
+      <div class="form-group">
+        <label for="userEmail">User Email:</label>
+        <input type="email" id="userEmail"  name="user_email" placeholder="Enter user email" required>
+      </div>
+      <!-- subscribed -->
+      <div class="form-group">
+        <label for="subscription"></label>
+        <select id="subscription" name="subscription" required>
+          <option value="">Change subscription status</option>
+            <option value="true">True</option>
+            <option value="false">False</option>      
+
+        </select>
+      </div>
+
+
+            <!-- Submit Button -->
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+   
+  </script>
+</body>
+</html>

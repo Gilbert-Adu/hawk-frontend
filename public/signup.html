@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Hawk | Realtime clients for your business</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #000;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .primary-btn {
+      background-color: #C30E59;
+      color: #fff;
+    }
+
+    .primary-btn:hover {
+      background-color: #a00c4a;
+    }
+
+    .secondary-btn {
+      background-color: transparent;
+      color: #C30E59;
+      border: 1px solid #C30E59;
+    }
+
+    .secondary-btn:hover {
+      background-color: #f9fafb;
+    }
+
+    .toggle-text {
+      margin-top: 1rem;
+      color: #666;
+    }
+
+    .toggle-text a {
+      color: #C30E59;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .toggle-text a:hover {
+      text-decoration: underline;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+
+        /* Loading Screen Styles */
+        .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+      display: none; /* Hidden by default */
+    }
+
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #C30E59;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      margin-top: 1rem;
+      color: #333;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <!-- Signup Form -->
+    <div class="form active" id="signupForm">
+      <h1>Sign Up</h1>
+      <form id="signup" action="/register" method="POST">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" name="name" required>
+        
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" name="email" required>
+        
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" name="password" required>
+
+        <label for="reenteredPassword">Re-enter password</label>
+        <input type="password" id="reenteredPassword" name="reenteredPassword" required>
+        
+        
+        <button type="submit" class="primary-btn">Sign Up</button>
+      </form>
+      <p class="toggle-text">Already have an account? <a href="#" onclick="toggleForm('signin')">Sign In</a></p>
+    </div>
+
+    <!-- Signin Form -->
+    <div class="form" id="signinForm">
+      <h1>Sign In</h1>
+      <form id="signin" action="/login" method="POST">
+        <label for="signinEmail">Email Address</label>
+        <input type="email" id="signinEmail" name="email" required>
+        
+        <label for="signinPassword">Password</label>
+        <input type="password" id="signinPassword" name="password" required>
+        
+        <button type="submit" class="primary-btn">Sign In</button>
+      </form>
+      <p class="toggle-text">Don't have an account? <a href="#" onclick="toggleForm('signup')">Sign Up</a></p>
+    </div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Processing your request...</p>
+  </div>
+
+
+  <script>
+    // Function to toggle between signup and signin forms
+    function toggleForm(formType) {
+      const signupForm = document.getElementById('signupForm');
+      const signinForm = document.getElementById('signinForm');
+
+      if (formType === 'signup') {
+        signupForm.classList.add('active');
+        signinForm.classList.remove('active');
+      } else if (formType === 'signin') {
+        signinForm.classList.add('active');
+        signupForm.classList.remove('active');
+      }
+    }
+
+    /*
+        // Handle form submissions
+    document.getElementById('signup').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const reenteredPassword = document.getElementById('reenteredPassword').value;
+      //alert(`Signup Successful!\nName: ${name}\nEmail: ${email}`);
+      // You can add AJAX submission logic here
+      if (password == reenteredPassword) {
+          let data = {
+          "name": name,
+          "email": email,
+          "password": password
+        }
+        const loadingScreen = document.getElementById('loadingScreen');
+        loadingScreen.style.display = 'flex';
+
+
+        setTimeout(() => {
+        // Hide the loading screen after the delay
+        loadingScreen.style.display = 'none';
+
+                // Send data to the backend using fetch
+        fetch('http://127.0.0.1:80/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          //alert(data.message); // Display the response message
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+
+
+
+        // Show a success message (or redirect the user)
+      }, 6000); // Replace this with actual form submission logic
+    }
+      else {
+        alert("Password does not match")
+      }
+      
+      
+    });
+
+    */
+    
+    
+   /*
+    document.getElementById('signin').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const loadingScreen = document.getElementById('loadingScreen');
+      loadingScreen.style.display = 'flex';
+     
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 3000)
+      
+    });
+    
+   
+   */ 
+
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Capture Form</title>
+  <style>
+    /* Basic CSS to style the form */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lead Capture Form</h1>
+    <form id="leadForm" action="/admin/create-lead" method="POST">
+      <!-- User Email -->
+      <div class="form-group">
+        <label for="userEmail">User Email:</label>
+        <input type="email" id="userEmail"  name="user_email" placeholder="Enter user email" value="<%= email %>" required>
+      </div>
+
+      <!-- Campaign Name -->
+      <div class="form-group">
+        <label for="campaignName">Campaign Name:</label>
+        <select id="campaignName" name="campaign_name" required>
+          <option value="">Select a campaign</option>
+          <% for (let i = 0; i < campaigns.length; i++) { %>
+            <option value="<%= campaigns[i].campaign_id%>"><%= campaigns[i].campaign_name%></option>
+
+          <% } %>
+      
+        </select>
+      </div>
+
+      <!-- Lead Name -->
+      <div class="form-group">
+        <label for="leadName">Lead Name:</label>
+        <input type="text" id="leadName" name="lead_name" placeholder="Enter lead name" required>
+      </div>
+
+      <!-- Lead Location -->
+      <div class="form-group">
+        <label for="leadLocation">Lead Location:</label>
+        <input type="text" id="leadLocation"  name="lead_location" placeholder="Enter lead location" required>
+      </div>
+
+      <!-- Lead Source -->
+      <div class="form-group">
+        <label for="leadSource">Lead Source:</label>
+        <input type="text" id="leadSource"  name="lead_source" placeholder="Enter lead source" required>
+      </div>
+
+      <!-- Lead Post -->
+      <div class="form-group">
+        <label for="leadPost">Lead Post:</label>
+        <input type="text" id="leadPost"  name="lead_post" placeholder="Enter lead post" required>
+      </div>
+
+      <!-- Lead Contact -->
+      <div class="form-group">
+        <label for="leadContact">Lead Contact:</label>
+        <input type="text" id="leadContact"  name="lead_contact" placeholder="Enter lead contact" required>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+   
+  </script>
+</body>
+</html>

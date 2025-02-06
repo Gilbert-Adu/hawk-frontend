@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Options</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #000;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .payment-option {
+      margin-bottom: 2rem;
+    }
+
+    .payment-option h2 {
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .payment-option img {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+
+    .payment-option a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: #C30E59;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .payment-option a:hover {
+      background-color: #a00c4a;
+    }
+
+    .payment-option p {
+      color: #666;
+      margin-top: 1rem;
+    }
+
+    /* Popup Styles */
+    .popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 400px;
+      z-index: 1000;
+    }
+
+    .popup p {
+      margin: 0;
+      color: #333;
+    }
+
+    .popup .close-btn {
+      background: none;
+      border: none;
+      color: #C30E59;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .popup .close-btn:hover {
+      color: #a00c4a;
+    }
+  </style>
+</head>
+<body>
+  <!-- Popup Message -->
+  <div class="popup" id="popup">
+    <p><span style="color:#C30E59;font-weight: bold;">Gilbert</span> here. <br><br>I am the owner of Social Hawk. It's early days and these are our only payment partners for now. <br><br>Costs only <strong style="color: #C30E59;">$30/month</strong> <br><br><span style="font-size: 10px;">Way cheaper than a marketing agency or employee.</span></p>
+    <button class="close-btn" onclick="closePopup()">&times;</button>
+  </div>
+
+  <!-- Payment Options -->
+  <div class="container">
+    <h1>Payment Options</h1>
+
+    <!-- CashApp -->
+    <div class="payment-option">
+      <h2>CashApp</h2>
+      <a href="https://cash.app/$gisilberhart770" target="_blank">Open CashApp</a>
+      <p>Scan the barcode above or click the button to open CashApp.</p>
+    </div>
+
+    <!-- Venmo -->
+    <div class="payment-option">
+      <h2>Venmo</h2>
+      <a href="https://venmo.com/code?user_id=2754600847278080524&created=1738477005" target="_blank">Open Venmo</a>
+      <p>Scan the barcode above or click the button to open Venmo.</p>
+    </div>
+
+    <!-- PayPal -->
+    <div class="payment-option">
+      <h2>PayPal</h2>
+      <p>Send your payment to: <strong style="color: #C30E59;">gea33@cornell.edu</strong></p>
+    </div>
+  </div>
+
+  <script>
+    // Show popup when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'flex';
+    });
+
+    // Close popup
+    function closePopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

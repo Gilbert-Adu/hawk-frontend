@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Hawk - Realtime clients for your business</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f9fafb;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #C30E59;
+      font-family: "Poppins", serif;
+    }
+
+    nav a {
+      margin-left: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #666;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #000;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 0;
+    }
+
+    .hero-text {
+      max-width: 500px;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #000;
+      position: relative;
+    }
+
+    .hero-text h1 .highlight {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-text h1 .highlight svg {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      animation: squiggle 2s infinite;
+    }
+
+    @keyframes squiggle {
+      0% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(5px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .hero-text .cta {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #3D3BF3;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .hero-text .cta:hover {
+      background-color: #9694FF;
+    }
+
+    .hero-image {
+      width: 50%;
+      height: 400px;
+      background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      animation: float 3s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Features Section */
+    .features {
+      padding: 100px 0;
+      background-color: #fff;
+    }
+
+    .features h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 50px;
+      color: #000;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .feature-card {
+      background-color: #f9fafb;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #000;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Footer */
+    footer {
+      padding: 50px 0;
+      text-align: center;
+      background-color: #000;
+      color: #fff;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="container">
+    <div class="logo">Social Hawk</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="/payments" target="_blank">Pricing</a>
+      <!--
+            <a href="" id="email-text">Contact</a>
+
+      -->
+
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero container">
+    <div class="hero-text fade-in">
+      <h1>
+        Find <span class="highlight">Realtime Clients<svg viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q25,0 50,5 T100,5" stroke="#C30E59" stroke-width="2" fill="none" /></svg></span> 
+      </h1>
+      <p>Social Hawk helps businesses connect with their ideal clients instantly. Grow your business faster with our powerful tools.</p>
+      <a href="signup.html" class="cta">Get Started</a>
+    </div>
+    <div class="hero-image fade-in"></div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features container" id="features">
+    <h2 class="fade-in">Why Choose <span style="color: #C30E59;">Social Hawk</span></h2>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Real-Time Icon">
+        <h3>Real-Time Leads</h3>
+        <p>Get instant access (text or email) to potential clients actively searching for your services.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Analytics Icon">
+        <h3>Advanced Analytics</h3>
+        <p>Track your performance and optimize your campaigns with detailed insights.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Integration Icon">
+        <h3>Seamless Integration</h3>
+        <p>Connect with your favorite tools and platforms for a streamlined workflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p> Ithaca, New York | socialhawk2025@gmail.com | &copy; 2025 Social Hawk. All rights reserved.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+
+    window.onload = async function () {
+      try {
+        await axios.post("http://52.91.166.60:5000/api/send-email", {
+          "body": "Someone visited your homepage",
+          "subject": "💃🏿 A new person visited your homepage"
+        })
+
+      }catch(error) {
+        console.error("Could not send email")
+      }
+    }
+  </script>
+
+  <script>
+    // Add fade-in animations on scroll
+    const fadeElements = document.querySelectorAll('.fade-in');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    fadeElements.forEach((element) => {
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>

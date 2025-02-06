@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Hawk - Realtime clients for your business</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link href="https://cdn.jsdelivr.net/npm/chart.js" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f9fafb;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .logo {
+        color: #C30E59;
+        font-family: Poppins;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .navbar .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navbar .nav-links a:hover {
+      color: #C30E59;
+    }
+
+    .navbar .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .navbar .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 2rem;
+        background: #fff;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      .navbar .nav-links.active {
+        display: flex;
+      }
+
+      .navbar .hamburger {
+        display: block;
+      }
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #000;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .greeting {
+      margin-bottom: 2rem;
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 5vh;
+    }
+    .campaigns-card {
+      width: 80vw;
+
+
+    }
+
+    .card h2 {
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #C30E59;
+    }
+
+    .chart-container {
+      height: 200px;
+      margin-bottom: 1rem;
+    }
+
+    .map-container {
+      height: 300px;
+      background: #e0e0e0; /* Placeholder for map */
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    table th, table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f9fafb;
+      font-weight: 600;
+      color: #333;
+    }
+
+    table td {
+      color: #666;
+    }
+
+    .recent-leads {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    
+    .recent-campaigns {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    /* Popup Styles */
+    .popup, .second-popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 400px;
+      z-index: 1000;
+    }
+
+    .popup p, .second-popup p{
+      margin: 0;
+      color: #333;
+    }
+
+    .popup .close-btn, .second-popup .second-close-btn {
+      background: none;
+      border: none;
+      color: #C30E59;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .popup .close-btn:hover, .second-popup .second-close-btn:hover {
+      color: #a00c4a;
+    }
+
+    /* Create Campaign Form */
+    .create-campaign {
+      margin-top: 2rem;
+    }
+
+    .create-campaign h2 {
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .create-campaign input, .create-campaign textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .create-campaign button {
+      padding: 0.75rem 1.5rem;
+      background-color: #C30E59;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .create-campaign button:hover {
+      background-color: #a00c4a;
+    }
+
+      /* Loading Screen Styles */
+      .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+      display: none; /* Hidden by default */
+    }
+
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #C30E59;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      margin-top: 1rem;
+      color: #333;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo" style="color: #C30E59;"><a href="/" style="text-decoration: none;color: #C30E59;">Social Hawk</a></div>
+    <div class="hamburger" onclick="toggleNav()">&#9776;</div>
+    <div class="nav-links" id="navLinks">
+      <a href="#create-campaign">Create Campaign</a>
+      <a href="/payments">Make a Payment</a>
+      <!--      <a href="/logout">Logout</a>-->
+    </div>
+  </div>
+
+  <!-- Popup Message -->
+  <div class="second-popup" id="second-popup">
+    <p>Hey <%= user.name %> <br><br>Tell us more about your <a href="/important-info" style="color: #C30E59;text-decoration: none;" target="_blank">business</a></p>
+    <button class="second-close-btn" onclick="secondclosePopup()">&times;</button>
+  </div>
+  <!-- Popup Message -->
+  <div class="popup" id="popup">
+    <p>Hi <strong style="color: #C30E59;"><%= user.name %></strong> <br><br>Create a campaign to start generating real-time leads to grow your business. <br><br> <span style="font-size: 10px;">Make a payment to start creating campaigns</span></p>
+    <button class="close-btn" onclick="closePopup()">&times;</button>
+  </div>
+
+
+
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    <!-- Greeting -->
+    <div class="greeting">Hi, <%= user.name %></div>
+
+    <!-- Grid Layout -->
+    <div class="grid">
+      <!-- Total Leads -->
+      <div class="card">
+        <h2>Total Leads</h2>
+        <p class="value"><%= total_leads %></p>
+        <p><!--+12% from last month--></p>
+        <div class="chart-container">
+          <canvas id="totalLeadsChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Conversion Rate -->
+      <div class="card">
+        <h2>Conversion Rate</h2>
+        <p class="value"><%= conversion_rate %></p>
+        <p><!--+2.3% from last month--></p>
+        <div class="chart-container">
+          <canvas id="conversionRateChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Leads by Source -->
+      <div class="card">
+        <h2>Leads by Source</h2>
+        <div class="chart-container">
+          <canvas id="leadsBySourceChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Top Performing Campaigns -->
+      <div class="card campaigns-card">
+        <h2>Top Performing Campaigns</h2>
+        <div class="chart-container">
+          <canvas id="topCampaignsChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <span><%= leads.lead_name %></span>
+    <!-- Recent Leads -->
+    <div class="card">
+      <h2>Recent Leads</h2>
+      <div class="recent-leads">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Contact</th>
+              <th>Source</th>
+              <th>Messaged?</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (let i = 0; i < leads.length; i++) { %>
+              <tr>
+                <td><%= leads[i].lead_name %></td>
+                <td><a href="<%=leads[i].lead_contact %>"><%=leads[i].lead_contact %></a></td>
+                <td><%= leads[i].lead_source %></td>
+                <td style="color: #C30E59;"><%= leads[i].message_sent %></td>
+                <td><%= leads[i].created_at %></td>
+              </tr>
+              
+            <% } %>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!--campaigns card-->
+    <!-- Recent Leads -->
+    <div class="card">
+      <h2>Your Campaigns</h2>
+      <div class="recent-campaigns">
+        <table>
+          <thead>
+            <tr>
+              <th>Campaign</th>
+              <th>Service</th>
+              <th>Location</th>
+              <th>Date</th>
+              <span>
+                <th></th>
+                <th></th>
+              </span>
+            </tr>
+          </thead>
+          <tbody>
+            <!--start-->
+            <% for (let i = 0; i < campaigns.length; i++) { %>
+              <tr>
+                <td><%= campaigns[i].campaign_name %></td>
+                <td><%=campaigns[i].campaign_service %></td>
+                <td><%= campaigns[i].campaign_name %></td>
+                <td><%= campaigns[i].created_at %></td>
+                <span>
+                  <!--
+                    <td><a href="/edit-campaign/<%= campaigns[i].campaign_id %>"  style="color: #C30E59;font-size: 12px; cursor: pointer; text-decoration: none;">Edit</a></td>
+                  -->
+                  <td><a href="/delete-campaign/<%= campaigns[i].campaign_id %>"  style="color: #C30E59;font-size: 12px; cursor: pointer; text-decoration: none;">Delete</a></td>
+                </span>
+              </tr>
+              
+            <% } %>
+        
+
+            <!--end-->
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- Create Campaign -->
+    <div class="create-campaign" id="create-campaign">
+      <h2>Create Campaign</h2>
+      <form id="campaignForm" action="/create-campaign" method="POST">
+        <input type="text" placeholder="What should we call your campaign?" name="campaign_name" id="campaign_name" required>
+        <input type="text" placeholder="What service/product is this for? (eg. drywall)" name="campaign_service" id="campaign_service" required>
+        <input type="text" placeholder="Where do you want clients from? (eg. Philadelphia, PA)" name="campaign_location" id="campaign_location" required>
+
+        <textarea placeholder="Tell us more about where you would like clients from. Any specific neighborhoods?" name="campaign_desc" id="campaign_desc" rows="4" required></textarea>
+        <% if (user.status == 'true') { %>
+          <button type="submit" id="submit-campaign">Create Campaign</button>
+        <% } else { %>
+        <% } %>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+          window.onload = function () {
+        // Check if the popup has already been shown
+        localStorage.clear()
+        if (!localStorage.getItem('popupShown')) {
+          // Set flag in localStorage
+          localStorage.setItem('popupShown', 'true');
+        }else {
+          document.getElementById('popup').style.display = 'none';
+
+
+        }
+      };
+
+  </script>
+  <script>
+    const leads = <%- JSON.stringify(leads) %>;
+    const campaigns = <%- JSON.stringify(campaigns) %>;
+
+
+    // Show popup when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'flex';
+    });
+
+    // Close popup
+    function closePopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'none';
+    }
+
+    // Close popup
+    function secondclosePopup() {
+      const popup = document.getElementById('second-popup');
+      popup.style.display = 'none';
+    }
+
+    // Toggle navbar for mobile
+    function toggleNav() {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('active');
+    }
+
+    // Charts
+          // Helper function to count occurrences by month
+      function countMonthlyOccurrences(dataList) {
+        const monthCounts = new Array(12).fill(0);
+
+        dataList.forEach(item => {
+          const monthIndex = new Date(item.created_at).getMonth(); // Extract month index
+          monthCounts[monthIndex]++; // Increment count for that month
+        });
+
+        return monthCounts;
+      }
+
+      const monthlyOccurrences = countMonthlyOccurrences(leads);
+
+    const totalLeadsCtx = document.getElementById('totalLeadsChart').getContext('2d');
+    new Chart(totalLeadsCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'Total Leads',
+          data: monthlyOccurrences,
+          borderColor: '#C30E59',
+          fill: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+    const conversionRateCtx = document.getElementById('conversionRateChart').getContext('2d');
+    let conversions = []
+
+    for (i = 0; i < leads.length; i++) {
+      if (leads[i].message_sent === true) {
+        conversions.push(leads[i])
+      }
+      
+    }
+    let conversionData = countMonthlyOccurrences(conversions);
+
+    new Chart(conversionRateCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'Conversion Rate',
+          //data: [5, 6, 7, 8, 8.5, 9],
+          data: conversionData,
+          borderColor: '#C30E59',
+          fill: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+    const leadsBySourceCtx = document.getElementById('leadsBySourceChart').getContext('2d');
+    let labels = [];
+    let data = [];
+
+    // Count occurrences of each name
+    const nameCount = leads.reduce((acc, item) => {
+      acc[item.lead_source] = (acc[item.lead_source] || 0) + 1;
+      return acc;
+    }, {});
+    // Convert the result to a list of objects
+    const resultList = Object.keys(nameCount).map(lead_source => ({ lead_source, count: nameCount[lead_source] }));
+    
+    for (let i=0; i < resultList.length; i++) {
+      labels.push(resultList[i]['lead_source'])
+      data.push(resultList[i]['count'])
+
+    }
+
+    new Chart(leadsBySourceCtx, {
+      type: 'doughnut',
+      data: {
+        //labels: ['Facebook', 'Twitter', 'Reddit', 'Craigslist', 'Instagram'],
+        labels: labels,
+        datasets: [{
+          //data: [45, 30, 15, 10, 20],
+          data: data,
+          backgroundColor: ['#1877F2', '#1DA1F2', '#FF4500', '#6a1b9a', '#FFDC80'],
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+    const topCampaignsCtx = document.getElementById('topCampaignsChart').getContext('2d');
+    let campaignLabels = [];
+    let campaignData = [];
+
+    const campaignsCount = campaigns.reduce((acc, item) => {
+      acc[item.campaign_name] = (acc[item.campaign_name] || 0) + 1;
+      return acc;
+    }, {});
+    // Convert the result to a list of objects
+    const campaignList = Object.keys(campaignsCount).map(campaign_name => ({ campaign_name, count: campaignsCount[campaign_name] }));
+    
+    for (let i=0; i < campaignList.length; i++) {
+      campaignLabels.push(campaignList[i]['campaign_name'])
+      campaignData.push(campaignList[i]['count'])
+
+    }
+    console.log("campaign_labels: ", campaignLabels)
+    console.log("campaign_data: ", campaignData)
+
+
+    new Chart(topCampaignsCtx, {
+      type: 'bar',
+      data: {
+        //labels: ['Campaign A', 'Campaign B', 'Campaign C', 'Campaign D'],
+        labels: campaignLabels,
+        datasets: [{
+          label: 'Leads',
+          data: campaignData,
+          backgroundColor: '#C30E59',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    
+    /*
+
+  
+    // Handle campaign form submission
+    document.getElementById('campaignForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      //alert('Campaign created successfully!');
+      // You can add AJAX submission logic here
+
+      let result = {
+        "campaign_name": document.getElementById('campaign_name'),
+        "campaign_location": document.getElementById('campaign_location'),
+        "campaign_desc": document.getElementById('campaign_desc'),
+
+      }
+      const loadingScreen = document.getElementById('loadingScreen');
+      loadingScreen.style.display = 'flex';
+
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+
+        fetch('http://localhost:3000/create-campaign', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(result)
+        })
+          .then(response => response.json())
+          .then(result => {
+            console.log('Success:', result);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+
+
+      }, 3000)
+
+    });
+  
+    */
+  </script>
+</body>
+</html>
