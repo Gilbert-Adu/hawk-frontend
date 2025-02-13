@@ -183,7 +183,7 @@ app.post("/register", async(req, res) => {
     }catch(err) {
         console.log("an error occurred: ", err.message)
         console.log("error code: ", err.status);
-        if (err.status == 403) {
+        if (err.status ==  403 || typeof err.status == "undefined" || err.status == null) {
             res.render('signup', {'error': true, 'message': 'You might already have an account with us. Please sign in with your credentials.'})
 
         }
