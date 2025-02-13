@@ -311,11 +311,20 @@
     <div class="hamburger" onclick="toggleNav()">&#9776;</div>
     <div class="nav-links" id="navLinks">
       <a href="#create-campaign">Create Campaign</a>
-      <a href="/payments">Make a Payment</a>
+
+
+
+      <!--
+            <a href="/important-info">Your Business</a>
+
+            <a href="/payments">Make a Payment</a>
+
+      -->
       <!--      <a href="/logout">Logout</a>-->
     </div>
   </div>
 
+  
   <!-- Popup Message -->
   <div class="second-popup" id="second-popup">
     <p>Hey <%= user.name %> <br><br>Tell us more about your <a href="/important-info" style="color: #C30E59;text-decoration: none;" target="_blank">business</a></p>
@@ -333,7 +342,7 @@
   <!-- Dashboard Container -->
   <div class="dashboard-container">
     <!-- Greeting -->
-    <div class="greeting">Hi, <%= user.name %></div>
+    <div class="greeting">Hi <%= user.name %>, </div>
 
     <!-- Grid Layout -->
     <div class="grid">
@@ -459,10 +468,14 @@
         <input type="text" placeholder="Where do you want clients from? (eg. Philadelphia, PA)" name="campaign_location" id="campaign_location" required>
 
         <textarea placeholder="Tell us more about where you would like clients from. Any specific neighborhoods?" name="campaign_desc" id="campaign_desc" rows="4" required></textarea>
+        <!--
         <% if (user.status == 'true') { %>
           <button type="submit" id="submit-campaign">Create Campaign</button>
         <% } else { %>
         <% } %>
+        -->
+        <button type="submit" id="submit-campaign">Create Campaign</button>
+
       </form>
     </div>
   </div>
@@ -471,12 +484,14 @@
   <script>
           window.onload = function () {
         // Check if the popup has already been shown
-        localStorage.clear()
+        //localStorage.clear()
         if (!localStorage.getItem('popupShown')) {
           // Set flag in localStorage
           localStorage.setItem('popupShown', 'true');
         }else {
           document.getElementById('popup').style.display = 'none';
+          document.getElementById('second-popup').style.display = 'none';
+
 
 
         }

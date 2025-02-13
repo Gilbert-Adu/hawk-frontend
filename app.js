@@ -161,8 +161,11 @@ app.post("/change-subscription-status", async(req, res) => {
     
 })
 
+app.get("/join", (req, res) => {
+    res.render("signup", {'error':false, 'message': ''})
+})
 //register
-
+//http://52.91.166.60:5000/api/register
 app.post("/register", async(req, res) => {
 
     try {
@@ -177,10 +180,13 @@ app.post("/register", async(req, res) => {
         //res.render('dashboard', {'user': user})
         res.render('dashboard', {'user': user, 'campaigns': [], 'leads': [], 'total_leads': [], 'conversion_rate': []})
 
-
-
     }catch(err) {
         console.log("an error occurred: ", err.message)
+        console.log("error code: ", err.status);
+        if (err.status == 403) {
+            res.render('signup', {'error': true, 'message': 'You might already have an account with us. Please sign in with your credentials.'})
+
+        }
 
 
     }

@@ -147,9 +147,55 @@
       color: #333;
       font-weight: 500;
     }
+
+
+    /* Popup Styles */
+    .second-popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 400px;
+      z-index: 1000;
+    }
+
+    .second-popup p{
+      margin: 0;
+      color: #333;
+    }
+
+    .second-popup .second-close-btn {
+      background: none;
+      border: none;
+      color: #C30E59;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+     .second-popup .second-close-btn:hover {
+      color: #a00c4a;
+    }
   </style>
 </head>
 <body>
+  
+  <% if (error == true) { %>
+    <div class="second-popup" id="second-popup">
+      <p><%= message %></p>
+      <button class="second-close-btn" onclick="secondclosePopup()">&times;</button>
+    </div>
+  
+  <% } else { %>
+  <% } %>
+  
   <div class="form-container">
     <!-- Signup Form -->
     <div class="form active" id="signupForm">
@@ -210,6 +256,13 @@
         signupForm.classList.remove('active');
       }
     }
+
+        // Close popup
+    function secondclosePopup() {
+      const popup = document.getElementById('second-popup');
+      popup.style.display = 'none';
+    }
+
 
     /*
         // Handle form submissions
